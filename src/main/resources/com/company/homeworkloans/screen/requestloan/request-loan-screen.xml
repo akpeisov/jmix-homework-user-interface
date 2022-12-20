@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://requestLoanScreen.caption">
+    <data>
+        <collection id="clientsDc" class="com.company.homeworkloans.entity.Client" fetchPlan="_base">
+            <loader id="clientsDl">
+                <query>
+                    <![CDATA[select e from Client e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+
+    <actions>
+        <action id="windowClose"
+                caption="Cancel"
+                icon="CANCEL"/>
+        <action id="request"
+                caption="Request"/>
+    </actions>
+    <facets>
+        <!-- эта штука позволяет загрузить датасет при запуске экрана -->
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+
+    <dialogMode forceDialog="true" width="AUTO" height="AUTO"/>
+
+    <layout expand="hb" spacing="true">
+        <entityComboBox id="client"
+                        caption="Client"
+                        optionsContainer="clientsDc"
+                        required="true"
+                        nullOptionVisible="false"/>
+        <textField id="amount" datatype="long" caption="Amount" required="true">
+            <validators>
+<!--                <custom bean="ui_AmountValidator"/>-->
+                <positive message="msg://amountError"/>
+            </validators>
+        </textField>
+        <hbox id="hb" spacing="true" >
+            <button id="requestBtn" primary="true" action="request" icon="font-icon:MONEY"/>
+            <button id="cancelBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

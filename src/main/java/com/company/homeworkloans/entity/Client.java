@@ -4,14 +4,13 @@ import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @JmixEntity
@@ -39,6 +38,14 @@ public class Client {
 
     @Column(name = "SALARY", precision = 19, scale = 2)
     private BigDecimal salary;
+
+    @JmixProperty
+    @Transient
+    private Long age;
+
+    public Long getAge() {
+        return ChronoUnit.YEARS.between(birthDate, LocalDate.now());
+    }
 
     public BigDecimal getSalary() {
         return salary;

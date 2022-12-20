@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://loanApproval.caption"
+        focusComponent="loansTable">
+    <data readOnly="true">
+        <collection id="loansDc"
+                    class="com.company.homeworkloans.entity.Loan">
+            <fetchPlan extends="_base">
+                <property name="client" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="loansDl">
+                <query>
+                    <![CDATA[select e from Loan e where e.status = @enum(com.company.homeworkloans.entity.LoanStatus.REQUESTED)]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="prevLoansDc"
+                    class="com.company.homeworkloans.entity.Loan">
+            <fetchPlan extends="_base">
+                <property name="client" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="prevLoansDl">
+                <query>
+                    <![CDATA[select e from Loan e
+                              where e.client = :clientId
+                                and e.id <> :loadId]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="loansTable" spacing="true">
+        <groupTable id="loansTable"
+                    width="100%"
+                    dataContainer="loansDc">
+            <actions>
+            </actions>
+            <columns>
+                <column id="requestDate"/>
+                <column id="client"/>
+                <column id="amount"/>
+                <column id="client.phoneNumber"/>
+                <column id="client.salary"/>
+                <column id="client.age"/>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="approve" caption="msg://approve.caption" icon="THUMBS_UP"/>
+                <button id="reject" caption="msg://reject.caption" icon="THUMBS_DOWN"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+        <!--а мне так больше нравилось, чем caption у таблицы -->
+        <!--        <label  value="msg://prevLoans"-->
+        <!--                stylename="h2"/>-->
+        <groupTable id="prevLoansTable"
+                    width="100%"
+                    dataContainer="prevLoansDc"
+                    caption="msg://prevLoans"
+                    height="235">
+            <actions>
+            </actions>
+            <columns>
+                <column id="amount"/>
+                <column id="requestDate"/>
+                <column id="status"/>
+            </columns>
+            <simplePagination/>
+        </groupTable>
+    </layout>
+</window>

@@ -27,6 +27,9 @@
         <action id="lookupCancelAction"
                 caption="msg:///actions.Cancel"
                 icon="LOOKUP_CANCEL"/>
+        <action id="requestLoanAction"
+                icon="font-icon:MONEY"
+                caption="msg://requestLoan"/>
     </actions>
     <dialogMode height="600"
                 width="800"/>
@@ -42,6 +45,7 @@
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
+<!--                <action id="requestLoanAction" type="requestLoanAction" />-->
             </actions>
             <columns>
                 <column id="firstName"/>
@@ -56,6 +60,8 @@
                 <button id="createBtn" action="clientsTable.create"/>
                 <button id="editBtn" action="clientsTable.edit"/>
                 <button id="removeBtn" action="clientsTable.remove"/>
+                <button id="requestLoanBtn" action="requestLoanAction"/>
+
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
